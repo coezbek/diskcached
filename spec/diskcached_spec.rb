@@ -115,6 +115,19 @@ describe Diskcached do
       @cache.expired?('test2').should be_true
     end
   end
+  
+  describe "#expired?_timeout" do
+    before(:all) do
+      @cache = Diskcached.new($cachedir, nil)
+    end
+    it "should be true" do
+      @cache.expired?('test2').should be_true
+    end
+    it "should be false" do
+      @cache.cache('test2') { "cache test2" }
+      @cache.expired?('test2').should be_false
+    end
+  end
 
   describe "#delete" do
     before(:all) do
