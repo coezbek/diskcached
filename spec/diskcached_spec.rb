@@ -38,7 +38,7 @@ describe Diskcached do
       expect(@cache.set('test1', "test string")).to be_truthy
     end
     it "should create a file on disk" do
-      expect(File.exists?(File.join($cachedir, "test1.cache"))).to be_truthy
+      expect(File.exist?(File.join($cachedir, "test1.cache"))).to be_truthy
     end
   end
 
@@ -81,10 +81,10 @@ describe Diskcached do
       expect(@cache.cache('test1') do
         "test string"
       end).to eq "test string"
-      expect(File.exists?(File.join($cachedir, "test1.cache"))).to be_truthy
+      expect(File.exist?(File.join($cachedir, "test1.cache"))).to be_truthy
     end
     it "should create a file on disk" do
-      expect(File.exists?(File.join($cachedir, "test1.cache"))).to be_truthy
+      expect(File.exist?(File.join($cachedir, "test1.cache"))).to be_truthy
     end
     it "should read cache before expiration" do
       expect(@cache.cache('test1')).to eq "test string"
@@ -122,11 +122,11 @@ describe Diskcached do
       @cache = Diskcached.new($cachedir, nil)
     end
     it "should be true" do
-      @cache.expired?('test2').should be_true
+      expect(@cache.expired?('test2')).to be_falsey
     end
     it "should be false" do
       @cache.cache('test2') { "cache test2" }
-      @cache.expired?('test2').should be_false
+      expect(@cache.expired?('test2')).to be_falsey
     end
   end
 
@@ -141,7 +141,7 @@ describe Diskcached do
       expect(@cache.expired?('test3')).to be_truthy
     end
     it "should remove cache file" do
-      expect(File.exists?(File.join($cachedir, "test3.cache"))).to be_falsey
+      expect(File.exist?(File.join($cachedir, "test3.cache"))).to be_falsey
     end
   end
 
@@ -181,13 +181,13 @@ describe Diskcached do
       expect(@cache.expired?('flush1')).to be_truthy
       @cache.instance_variable_set(:@gc_last, Time.now)
       expect { @cache.flush_expired }.to_not raise_error
-      expect(File.exists?(File.join($cachedir, "flush1.cache"))).to be_truthy
+      expect(File.exist?(File.join($cachedir, "flush1.cache"))).to be_truthy
     end
     it "should flush caches are are expired" do
       sleep 2
       expect { @cache.flush_expired }.to_not raise_error
       expect(@cache.expired?('flush1')).to be_truthy
-      expect(File.exists?(File.join($cachedir, "flush1.cache"))).not_to be_truthy
+      expect(File.exist?(File.join($cachedir, "flush1.cache"))).not_to be_truthy
     end
   end
 
@@ -206,7 +206,7 @@ describe Diskcached do
       expect(@cache.expired?('flush1')).to be_truthy
       @cache.instance_variable_set(:@gc_last, Time.now)
       expect { @cache.flush_expired! }.to_not raise_error
-      expect(File.exists?(File.join($cachedir, "flush1.cache"))).to_not be_truthy
+      expect(File.exist?(File.join($cachedir, "flush1.cache"))).to_not be_truthy
     end
   end
 
@@ -230,9 +230,9 @@ describe Diskcached do
       sleep 2
       expect { @cache.cache('test10') { "cache test10" } }.to_not raise_error
       sleep 1
-      expect(File.exists?(@cache.cache_file('test8'))).to be_falsey
-      expect(File.exists?(@cache.cache_file('test9'))).to be_falsey
-      expect(File.exists?(@cache.cache_file('test10'))).to be_truthy
+      expect(File.exist?(@cache.cache_file('test8'))).to be_falsey
+      expect(File.exist?(@cache.cache_file('test9'))).to be_falsey
+      expect(File.exist?(@cache.cache_file('test10'))).to be_truthy
     end
   end
 
@@ -247,9 +247,9 @@ describe Diskcached do
       sleep 2
       expect { @cache.cache('test10') { "cache test10" } }.to_not raise_error
       sleep 1
-      expect(File.exists?(@cache.cache_file('test8'))).to be_truthy
-      expect(File.exists?(@cache.cache_file('test9'))).to be_truthy
-      expect(File.exists?(@cache.cache_file('test10'))).to be_truthy
+      expect(File.exist?(@cache.cache_file('test8'))).to be_truthy
+      expect(File.exist?(@cache.cache_file('test9'))).to be_truthy
+      expect(File.exist?(@cache.cache_file('test10'))).to be_truthy
     end
   end
 

@@ -54,7 +54,7 @@ class Diskcached
 
   # expire cache with 'key'
   def delete key
-    File.delete( cache_file(key) ) if File.exists?( cache_file(key) )
+    File.delete( cache_file(key) ) if File.exist?( cache_file(key) )
   end
 
   # expire (delete) all caches in #store directory
@@ -168,7 +168,7 @@ class Diskcached
   # returns mtime of cache file or nil if
   # file doesn't exist
   def read_cache_mtime key
-    return nil unless File.exists?(cache_file(key))
+    return nil unless File.exist?(cache_file(key))
     File.mtime( cache_file(key) )
   end
 
